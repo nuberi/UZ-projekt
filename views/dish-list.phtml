@@ -7,7 +7,7 @@
       <div class="col-md-12">
         <?php foreach($params['dishes']as $dish):?>
         <div class="row mb-3">
-          <div class="pricing-entry d-flex mr-2 ml-2 pt-2 pb-2 <?=$dish['isActive']===0 ?"border rounded border-danger border-style-dotted":""?>">
+          <div class="pricing-entry d-flex mr-2 ml-2 pt-2 pb-2 <?=$dish['isActive']==="0" ?"border rounded border-danger border-style-dotted":""?>">
             <div class="desc pl-3">
               <div class="d-flex text align-items-center">
                 <h3><span><?= $dish['name']?></span></h3>
