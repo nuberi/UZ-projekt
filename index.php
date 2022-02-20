@@ -31,6 +31,8 @@ $routes = [
     ['POST','/delete-dish/{dishId}','deleteDishHandler'],
     ['GET','/admin/etel-tipusok','adminDishTypeHandler'],
     ['POST','/create-dish-type','createDishTypeHandler'],
+    ['GET','/logout','logoutHandler'],
+    ['POST', '/register','registrationHandler'],
     ['POST','/logout','logoutHandler'],
 
 ];
@@ -42,12 +44,33 @@ $handlerFunction = $matchedRoute['handler'];
 $handlerFunction($matchedRoute['vars']);
 
 // Handler függvények deklarálása
+function registrationHandler(){
+    $admin=0;
+    $pdo = getConnection();
+    $statment = $pdo->prepare(
+        "INSERT INTO `users` (`email`, `password`, `createdAt`, admin) 
+        VALUES (?, ?, ?, ?);" 
+    );
+    $statment->execute([
+        $_POST["email"],
+        password_hash($_POST["password"], PASSWORD_DEFAULT),
+        time(),
+        $admin
+    ]);
+
+    header('Location: /');
+}
+
 
 function adminDasboardHandler(){
     if(!isLoggedIn()){
         echo render('wrapper.phtml', [
         'content' => render('login.phtml')
     ]);
+    return;
+    }
+    if(!isAdmin()){
+        homeHandler();
     return;
     }
     $pdo = getConnection();
@@ -67,6 +90,22 @@ function adminDasboardHandler(){
 
 function homeHandler()
 {
+    if(!isLoggedIn()){
+        echo render('wrapper.phtml',[
+            'content'=>render('subsriptionForm.phtml',[
+    
+            ])
+            ]);
+    
+    return;
+    }
+  
+
+
+       
+    
+
+    
     $pdo = getConnection();
    
     $dishTypes=getAllDishTypes($pdo);
