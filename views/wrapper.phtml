@@ -34,7 +34,7 @@
       </button>
       <div class="collapse navbar-collapse" id="ftco-nav">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item"><a href="/admin" class="nav-link">Admin</a></li>
+          <li class="nav-item"><a href="<?=isset($_SESSION)?'/logout':'/admin'?>" class="nav-link"><?=isset($_SESSION)?'Kijelentkezés':'Bejelentkezés'?></a></li>
         </ul>
       </div>
     </div>

@@ -15,13 +15,23 @@ function loginHandler(){
         header('Location: /admin?info=invalidCredentials');
         return;
     }
+   
     if (!password_verify($_POST['password'],$user['password'])){
         header('Location: /admin?info=invalidCredentials');
         return;
     }
-    session_start();
-    $_SESSION['userId']=$user['id'];
-    header('Location:/admin');
+    if ($user['admin']===1) {
+        session_start();
+        $_SESSION['admin']=$user['admin'];
+        $_SESSION['userId']=$user['id'];
+        header('Location:/admin');
+    }
+    else {
+        session_start();
+        $_SESSION['admin']=$user['admin'];
+        $_SESSION['userId']=$user['id'];
+        header('Location:/');
+    }
 }
 //A felhaszáló be van-e jelentkezve?
 function isLoggedIn(){
@@ -34,7 +44,19 @@ function isLoggedIn(){
     if(!isset($_SESSION['userId'])){
         return false;
     }
+    
     return true;
+}
+function isAdmin(){
+    if (!isset($_SESSION['admin'])) {
+        return false;
+    }
+    if ($_SESSION['admin']===0) {
+        return false;
+    }
+    if ($_SESSION['admin']===1) {
+        return true;
+    }
 }
 function redirectToLoginPageNotLoggedIn(){
     if(isLoggedIn()){
