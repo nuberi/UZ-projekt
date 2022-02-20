@@ -45,7 +45,7 @@ $handlerFunction($matchedRoute['vars']);
 
 // Handler függvények deklarálása
 function registrationHandler(){
-    $admin=0;
+    $admin="0";
     $pdo = getConnection();
     $statment = $pdo->prepare(
         "INSERT INTO `users` (`email`, `password`, `createdAt`, admin) 

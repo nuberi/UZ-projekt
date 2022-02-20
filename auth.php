@@ -20,7 +20,7 @@ function loginHandler(){
         header('Location: /admin?info=invalidCredentials');
         return;
     }
-    if ($user['admin']===1) {
+    if ($user['admin']) {
         session_start();
         $_SESSION['admin']=$user['admin'];
         $_SESSION['userId']=$user['id'];
@@ -51,10 +51,10 @@ function isAdmin(){
     if (!isset($_SESSION['admin'])) {
         return false;
     }
-    if ($_SESSION['admin']===0) {
+    if ($_SESSION['admin']==="false") {
         return false;
     }
-    if ($_SESSION['admin']===1) {
+    if ($_SESSION['admin']==="true") {
         return true;
     }
 }
