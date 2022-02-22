@@ -90,42 +90,44 @@ function adminDasboardHandler(){
 
 function homeHandler()
 {
-    if(!isLoggedIn()){
-        echo render('wrapper.phtml',[
-            'content'=>render('subsriptionForm.phtml',[
+    if (!isLoggedIn()) {
+        echo render('wrapper.phtml', [
+            'content'=>render('subsriptionForm.phtml', [
     
             ])
             ]);
     
-    return;
+        return;
     }
   
-
-
-       
-    
-
-    
     $pdo = getConnection();
    
     $dishTypes=getAllDishTypes($pdo);
-    foreach($dishTypes as $index =>$dishType){
+    foreach ($dishTypes as $index =>$dishType) {
         $stmt = $pdo->prepare("SELECT * FROM dishes WHERE isActive =1 AND dishTypeId =?");
         $stmt ->execute([$dishType['id']]);
         $dishes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $dishTypes[$index]['dishes'] = $dishes;
-    } 
+    }
 
     // echo"<pre>";
     // var_dump($dishTypes);
-   
-    
+    if (isAdmin()) {
 
+    echo render("admin-wrapper.phtml", [
+    'content'=> render('public-menu.phtml', [
+        'dishTypesWithDishes'=>$dishTypes
+    ])
+]);
+
+}
+else{
     echo render("wrapper.phtml", [
-        'content'=> render('public-menu.phtml',[
+        'content'=> render('public-menu.phtml', [
             'dishTypesWithDishes'=>$dishTypes
         ])
     ]);
+}
 }
 
 
