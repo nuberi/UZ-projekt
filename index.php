@@ -13,6 +13,9 @@ require './slugifier.php';
 require './auth.php';
 require './dishes.php';
 require './dishTypes.php';
+require './product.php';
+require './productTypes.php';
+
 
 $method = $_SERVER["REQUEST_METHOD"];
 $parsed = parse_url($_SERVER['REQUEST_URI']);
@@ -30,7 +33,9 @@ $routes = [
     ['POST','/create-dish','createDishHandler'],
     ['POST','/delete-dish/{dishId}','deleteDishHandler'],
     ['GET','/admin/etel-tipusok','adminDishTypeHandler'],
+    ['GET','/admin/product-tipusok','adminProductTypeHandler'],
     ['POST','/create-dish-type','createDishTypeHandler'],
+    ['POST','/create-product-type','createProductTypeHandler'],
     ['GET','/logout','logoutHandler'],
     ['POST', '/register','registrationHandler'],
     ['POST','/logout','logoutHandler'],
