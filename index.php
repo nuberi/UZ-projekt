@@ -15,6 +15,7 @@ require './dishes.php';
 require './dishTypes.php';
 require './product.php';
 require './productTypes.php';
+require './buildingTypes.php';
 
 
 $method = $_SERVER["REQUEST_METHOD"];
@@ -26,16 +27,21 @@ $routes = [
     // [method, útvonal, handlerFunction],
     ['GET', '/', 'homeHandler'],
     ['GET', '/admin/etel-szerkesztese/{keresoBaratNev}', 'dishEditHandler'],
+    ['GET', '/admin/productType-szerkesztese/{productTypeId}', 'productTypeEditHandler'],
     ['GET','/admin','adminDasboardHandler'],
     ['POST', '/login', 'loginhandler'],
     ['POST', '/update-dish/ {dishId}','updateDishHandler'],
+    ['POST', '/update-productType/ {productTypeId}','updateProductTypeHandler'],
     ['GET', '/admin/uj-etel-letrehozasa','dishCreatePageHandler'],
     ['POST','/create-dish','createDishHandler'],
     ['POST','/delete-dish/{dishId}','deleteDishHandler'],
     ['GET','/admin/etel-tipusok','adminDishTypeHandler'],
     ['GET','/admin/product-tipusok','adminProductTypeHandler'],
+    ['GET','/admin/building-tipusok','adminBuildingTypeHandler'],
     ['POST','/create-dish-type','createDishTypeHandler'],
     ['POST','/create-product-type','createProductTypeHandler'],
+    ['POST','/create-building-type','createBuildingTypeHandler'],
+
     ['GET','/logout','logoutHandler'],
     ['POST', '/register','registrationHandler'],
     ['POST','/logout','logoutHandler'],

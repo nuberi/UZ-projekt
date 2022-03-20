@@ -3,7 +3,7 @@ function createDishTypeHandler(){
     redirectToLoginPageNotLoggedIn();
     $pdo= getConnection();
     $stmt= $pdo->prepare(
-        "INSERT INTO dishTypes 
+        "INSERT INTO dishtypes 
         (name,slug,description)
         VALUES
         (?,?,?);"
@@ -29,7 +29,7 @@ function adminDishTypeHandler(){
 }
 function getAllDishTypes($pdo){
    
-    $stmt =$pdo->prepare("SELECT * FROM dishTypes");
+    $stmt =$pdo->prepare("SELECT * FROM dishtypes");
     $stmt ->execute();
     $dishTypes = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $dishTypes;
