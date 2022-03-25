@@ -25,25 +25,34 @@ $path = $parsed['path'];
 // Útvonalak regisztrálása
 $routes = [
     // [method, útvonal, handlerFunction],
+    ['GET','/logout','logoutHandler'],
     ['GET', '/', 'homeHandler'],
     ['GET', '/admin/etel-szerkesztese/{keresoBaratNev}', 'dishEditHandler'],
     ['GET', '/admin/productType-szerkesztese/{productTypeId}', 'productTypeEditHandler'],
+    ['GET', '/admin/buildingType-szerkesztese/{buildingTypeId}', 'buildingTypeEditHandler'],
     ['GET','/admin','adminDasboardHandler'],
-    ['POST', '/login', 'loginhandler'],
-    ['POST', '/update-dish/ {dishId}','updateDishHandler'],
-    ['POST', '/update-productType/ {productTypeId}','updateProductTypeHandler'],
-    ['GET', '/admin/uj-etel-letrehozasa','dishCreatePageHandler'],
-    ['POST','/create-dish','createDishHandler'],
-    ['POST','/delete-dish/{dishId}','deleteDishHandler'],
-    ['POST','/delete-productType/{productTypeId}','deleteProductTypeHandler'],
     ['GET','/admin/etel-tipusok','adminDishTypeHandler'],
     ['GET','/admin/product-tipusok','adminProductTypeHandler'],
-    ['GET','/admin/building-tipusok','adminBuildingTypeHandler'],
+    ['GET','/admin/building-types','adminBuildingTypeHandler'],
+    ['GET', '/admin/uj-etel-letrehozasa','dishCreatePageHandler'],
+
+   
+    ['POST', '/update-dish/ {dishId}','updateDishHandler'],
+    ['POST', '/update-productType/ {productTypeId}','updateProductTypeHandler'],
+    ['POST', '/update-buildingType/ {buildingTypeId}','updateBuildingTypeHandler'],
+    
+   
+    ['POST','/delete-dish/{dishId}','deleteDishHandler'],
+    ['POST','/delete-productType/{productTypeId}','deleteProductTypeHandler'],
+    ['POST','/delete-buildingType/{buildingTypeId}','deleteBuildingTypeHandler'],
+
+    ['POST','/create-dish','createDishHandler'],
     ['POST','/create-dish-type','createDishTypeHandler'],
     ['POST','/create-product-type','createProductTypeHandler'],
     ['POST','/create-building-type','createBuildingTypeHandler'],
 
-    ['GET','/logout','logoutHandler'],
+   
+    ['POST', '/login', 'loginhandler'],
     ['POST', '/register','registrationHandler'],
     ['POST','/logout','logoutHandler'],
 

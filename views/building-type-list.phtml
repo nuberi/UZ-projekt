@@ -1,13 +1,13 @@
 <section class="ftco-section">
   <div class="container">
-    <div class="row">
+   
       <div class="col-md-12">
         <?php foreach ($params['buildingTypes'] as $buildingType) : ?>
           <div class="row mb-4 border-bottom border-dark">
             <div class="d-flex">
               <div class="desc pl-3">
                 <div class="d-flex text align-items-center">
-                  <h3><span><?= $buildingType['ingatlanTipus'] ?></span></h3>
+                  <h3><span><?= $buildingType['buildingType'] ?></span></h3>
                 </div>
                 <a href="/admin/buildingType-szerkesztese/<?=$buildingType['buildingTypeId']?>">
                 <button class="btn btn-sm btn-outline-warning">Szerkesztés</button>
@@ -20,7 +20,7 @@
             </div>
           </div>
         <?php endforeach ?>
-      </div>
+      
     </div>
     <div class="col-md-12 mb-5 pb-3">
       <h3>Új épület tipus létrehozása</h3>
