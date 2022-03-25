@@ -16,6 +16,9 @@
               <a href="/admin/productType-szerkesztese/<?=$productType['productTypeId']?>">
                 <button class="btn btn-sm btn-outline-warning">Szerkesztés</button>
               </a>
+              <form action="/delete-productType/<?= $productType['productTypeId']?>" method="POST" class="d-inline-block">
+                <button class="btn btn-sm btn-outline-danger" >Törlés</button>
+              </form>
               </div>
            
             </div>

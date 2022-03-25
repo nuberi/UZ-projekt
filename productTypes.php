@@ -1,4 +1,16 @@
 <?php
+function deleteProductTypeHandler($urlParameterek){
+    //echo "<pre>";
+ // var_dump($urlParameterek);
+ // exit;
+ redirectToLoginPageNotLoggedIn();
+ $pdo=getConnection();
+ $stmt= $pdo->prepare("DELETE FROM producttypes WHERE productTypeId =?");
+ $stmt->execute([
+     $urlParameterek['productTypeId']
+ ]);
+ header('Location: /admin/product-tipusok');
+}
 function createProductTypeHandler(){
     redirectToLoginPageNotLoggedIn();
     $pdo= getConnection();

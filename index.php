@@ -35,6 +35,7 @@ $routes = [
     ['GET', '/admin/uj-etel-letrehozasa','dishCreatePageHandler'],
     ['POST','/create-dish','createDishHandler'],
     ['POST','/delete-dish/{dishId}','deleteDishHandler'],
+    ['POST','/delete-productType/{productTypeId}','deleteProductTypeHandler'],
     ['GET','/admin/etel-tipusok','adminDishTypeHandler'],
     ['GET','/admin/product-tipusok','adminProductTypeHandler'],
     ['GET','/admin/building-tipusok','adminBuildingTypeHandler'],
