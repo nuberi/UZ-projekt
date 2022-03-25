@@ -9,7 +9,7 @@ function deleteProductTypeHandler($urlParameterek){
  $stmt->execute([
      $urlParameterek['productTypeId']
  ]);
- header('Location: /admin/product-tipusok');
+ header('Location: /admin/product-types');
 }
 function createProductTypeHandler(){
     redirectToLoginPageNotLoggedIn();
@@ -25,7 +25,7 @@ function createProductTypeHandler(){
         // slugify($_POST['name']),
          $_POST['productTypeDesc'],
     ]);
-    header('Location: /admin/product-tipusok');
+    header('Location: /admin/product-types');
 }
 
 
@@ -86,5 +86,5 @@ function updateProductTypeHandler($urlParams)
    
     (int)$urlParams['productTypeId']
     ]);
-    header('Location: /admin/product-tipusok');
+    header('Location: /admin/product-types');
 }

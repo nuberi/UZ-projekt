@@ -32,7 +32,7 @@ $routes = [
     ['GET', '/admin/buildingType-szerkesztese/{buildingTypeId}', 'buildingTypeEditHandler'],
     ['GET','/admin','adminDasboardHandler'],
     ['GET','/admin/etel-tipusok','adminDishTypeHandler'],
-    ['GET','/admin/product-tipusok','adminProductTypeHandler'],
+    ['GET','/admin/product-types','adminProductTypeHandler'],
     ['GET','/admin/building-types','adminBuildingTypeHandler'],
     ['GET', '/admin/uj-etel-letrehozasa','dishCreatePageHandler'],
 
