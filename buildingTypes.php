@@ -63,7 +63,7 @@ function adminBuildingTypeHandler(){
         ]);
 }
 function getAllBuildingTypes($pdo){
-   
+    redirectToLoginPageNotLoggedIn();
     $stmt =$pdo->prepare("SELECT * FROM buildingTypes");
     $stmt ->execute();
     $buildingTypes = $stmt->fetchAll(PDO::FETCH_ASSOC);

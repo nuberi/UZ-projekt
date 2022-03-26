@@ -3,6 +3,7 @@ function deleteProductHandler($urlParameterek){
        //echo "<pre>";
     // var_dump($urlParameterek);
     // exit;
+
     redirectToLoginPageNotLoggedIn();
     $pdo=getConnection();
     $stmt= $pdo->prepare("DELETE FROM dishes WHERE id =?");
@@ -12,6 +13,8 @@ function deleteProductHandler($urlParameterek){
     header('Location:/admin');
 }
 function createProductHandler(){
+  
+    redirectToLoginPageNotLoggedIn();
     $pdo=getConnection();
     $stmt=$pdo->prepare(
         "INSERT INTO dishes(name,slug,description,price,isActive,dishTypeId)
@@ -30,6 +33,7 @@ function createProductHandler(){
     header("Location:/admin");
 }
 function pagerCreateProductHandler(){
+   
     redirectToLoginPageNotLoggedIn();
     $pdo=getConnection();
     $dishTypes=getAllDishTypes($pdo);

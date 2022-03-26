@@ -9,9 +9,10 @@ function deleteDishHandler($urlParameterek){
     $stmt->execute([
         $urlParameterek['dishId']
     ]);
-    header('Location:/admin');
+    header('Location:/admin/allDishList');
 }
 function createDishHandler(){
+    redirectToLoginPageNotLoggedIn();
     $pdo=getConnection();
     $stmt=$pdo->prepare(
         "INSERT INTO dishes(name,slug,description,price,isActive,dishTypeId)
@@ -27,7 +28,7 @@ function createDishHandler(){
 
         "dishTypeId"=> $_POST['dishTypeId']
     ]);
-    header("Location:/admin");
+    header("Location:/admin/allDishList");
 }
 function dishCreatePageHandler(){
     redirectToLoginPageNotLoggedIn();
@@ -69,7 +70,7 @@ function updateDishHandler($urlParams)
     (int)isset($_POST['isActive']),
     $urlParams['dishId']
     ]);
-    header('Location: /admin');
+    header('Location: /admin/allDishList');
 }
 function dishEditHandler($vars)
 {

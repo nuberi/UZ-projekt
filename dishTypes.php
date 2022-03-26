@@ -1,6 +1,8 @@
 <?php
 function createDishTypeHandler(){
     redirectToLoginPageNotLoggedIn();
+adminDasboardHandler();
+
     $pdo= getConnection();
     $stmt= $pdo->prepare(
         "INSERT INTO dishtypes 
@@ -19,6 +21,7 @@ function createDishTypeHandler(){
 
 function adminDishTypeHandler(){
     redirectToLoginPageNotLoggedIn();
+    adminDasboardHandler();
     $pdo= getConnection();
     $dishTypes=getAllDishTypes($pdo);
     echo render('admin-wrapper.phtml',[
@@ -28,7 +31,7 @@ function adminDishTypeHandler(){
         ]);
 }
 function getAllDishTypes($pdo){
-   
+ 
     $stmt =$pdo->prepare("SELECT * FROM dishtypes");
     $stmt ->execute();
     $dishTypes = $stmt->fetchAll(PDO::FETCH_ASSOC);

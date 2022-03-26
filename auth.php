@@ -29,7 +29,7 @@ function loginHandler()
 
     if ($user['admin']) {
 
-        header('Location:/admin');
+        header('Location:/');
     } else {
 
         header('Location:/');
@@ -68,6 +68,7 @@ function redirectToLoginPageNotLoggedIn()
     if (isLoggedIn()) {
         return;
     }
-    header('Location: /admin');
+    notFoundHandler();
+    // header('Location: /login');
     exit;
 }

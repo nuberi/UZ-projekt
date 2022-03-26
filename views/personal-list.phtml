@@ -1,0 +1,40 @@
+<section class="ftco-section">
+  <div class="container">
+    <a href="/admin/new-personal-page">
+      <button class="btn btn-outline-success mb-4">Új létrehozása</button>
+    </a>
+
+      <div class="table-responsive">
+      <table class="table table-dark table-sm">
+    <thead>
+      <tr>
+        <th>Vezetéknév</th>
+        <th>Keresztnév</th>
+        <th>pozíció</th>
+        <th>titulus</th>
+      
+
+
+      </tr>
+  
+    </thead>
+    <tbody>
+        <?php foreach($params['personals']as $personal):?>
+      
+    
+       <tr>
+        <td><?php echo  $personal['lastName'] ?></td>
+        <td><?php echo $personal['firstName'] ?></td>
+        <td><?php echo $personal['post'] ?></td>
+        <td><?php echo $personal['title'] ?></td>
+      
+      </tr>
+      
+        <?php endforeach ?>
+        </tbody>
+  </table>
+          
+      </div>
+    </div>
+  </div>
+</section>

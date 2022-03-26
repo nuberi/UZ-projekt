@@ -40,7 +40,7 @@ function adminProductTypeHandler(){
         ]);
 }
 function getAllProductTypes($pdo){
-   
+    redirectToLoginPageNotLoggedIn();
     $stmt =$pdo->prepare("SELECT * FROM producttypes");
     $stmt ->execute();
     $productTypes = $stmt->fetchAll(PDO::FETCH_ASSOC);

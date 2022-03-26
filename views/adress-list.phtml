@@ -1,0 +1,56 @@
+
+
+
+
+<section class="ftco-section">
+  <div class="container">
+    <a href="/admin/uj-etel-letrehozasa">
+      <button class="btn btn-outline-success mb-4">Új létrehozása</button>
+    </a>
+
+      <div class="table-responsive">
+      <table class="table table-dark table-sm">
+    <thead>
+      <tr>
+        <th>Épület tipusa</th>
+        <th>Ország</th>
+        <th>Irányítószám</th>
+        <th>Város</th>
+        <th>Utca</th>
+        <!-- <th>közter tipus</th> -->
+        <th>Házszam</th>
+        <th>Épület</th>
+        <th>Emelet</th>
+        <th>Ajtó</th>
+
+
+
+      </tr>
+  
+    </thead>
+    <tbody>
+        <?php foreach($params['adresses']as $adress):?>
+      
+    
+       <tr>
+        <td><?php echo  $adress['buildingType'] ?></td>
+        <td><?php echo $adress['country'] ?></td>
+        <td><?php echo $adress['postCode'] ?></td>
+        <td><?php echo $adress['cityName'] ?></td>
+        <td><?php echo $adress['streetName'] ?></td>
+        <!-- <td><?php $adress['buildingType'] ?></td> -->
+        <td><?php echo $adress['houseNumber'] ?></td>
+        <td><?php echo $adress['building'] ?></td>
+        <td><?php echo $adress['floor'] ?></td>
+        <td><?php echo $adress['door'] ?></td>
+       
+      </tr>
+      
+        <?php endforeach ?>
+        </tbody>
+  </table>
+          
+      </div>
+    </div>
+  </div>
+</section>

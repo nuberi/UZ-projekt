@@ -16,6 +16,9 @@ require './dishTypes.php';
 require './product.php';
 require './productTypes.php';
 require './buildingTypes.php';
+require './adresses.php';
+require './personal.php';
+
 
 
 $method = $_SERVER["REQUEST_METHOD"];
@@ -30,12 +33,14 @@ $routes = [
     ['GET', '/admin/etel-szerkesztese/{keresoBaratNev}', 'dishEditHandler'],
     ['GET', '/admin/productType-szerkesztese/{productTypeId}', 'productTypeEditHandler'],
     ['GET', '/admin/buildingType-szerkesztese/{buildingTypeId}', 'buildingTypeEditHandler'],
-    ['GET','/admin','adminDasboardHandler'],
+    ['GET','/admin/allDishList','allDishHandler'],
     ['GET','/admin/etel-tipusok','adminDishTypeHandler'],
     ['GET','/admin/product-types','adminProductTypeHandler'],
     ['GET','/admin/building-types','adminBuildingTypeHandler'],
     ['GET', '/admin/uj-etel-letrehozasa','dishCreatePageHandler'],
-
+    ['GET', '/admin/adresseslist','adressesListPageHandler'],
+    ['GET', '/admin/personallist','personalListPageHandler'],
+    ['GET', '/admin/new-personal-page','personalCreatePageHandler'],
    
     ['POST', '/update-dish/ {dishId}','updateDishHandler'],
     ['POST', '/update-productType/ {productTypeId}','updateProductTypeHandler'],
@@ -50,7 +55,7 @@ $routes = [
     ['POST','/create-dish-type','createDishTypeHandler'],
     ['POST','/create-product-type','createProductTypeHandler'],
     ['POST','/create-building-type','createBuildingTypeHandler'],
-
+    ['POST','/create-personal','createPersonalHandler'],
    
     ['POST', '/login', 'loginhandler'],
     ['POST', '/register','registrationHandler'],
@@ -84,23 +89,25 @@ function registrationHandler(){
 
 
 function adminDasboardHandler(){
-    if(!isLoggedIn()){
+    if (!isLoggedIn()) {
         echo render('wrapper.phtml', [
         'content' => render('login.phtml')
     ]);
-    return;
+        return;
     }
-    if(!isAdmin()){
-        homeHandler();
-    return;
+    if (!isAdmin()) {
+        header('Location: /');
     }
+}
+  function allDishHandler(){
+    adminDasboardHandler();
     $pdo = getConnection();
     $stmt = $pdo->prepare("SELECT * FROM dishes ORDER BY id desc ");
     $stmt->execute();
     $dishes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     echo render('admin-wrapper.phtml', [
-        'content' => render('dish-list.phtml',[
+        'content' => render('dish-list.phtml', [
             'dishes' =>$dishes
         ])
         ]);
