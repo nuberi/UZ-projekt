@@ -31,9 +31,9 @@ body {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #212529;
+  color: #a377cf;
   text-align: left;
-  background-color: #fff; }
+  background-color: rgb(107, 46, 46); }
 
 [tabindex="-1"]:focus {
   outline: 0 !important; }

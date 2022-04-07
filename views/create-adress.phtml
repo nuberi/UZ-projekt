@@ -1,0 +1,112 @@
+<section class="ftco-section">
+    <div class="container">
+        <div class="col-md-12 mb-5 pb-3 text-success">
+            <h3>Új cím rögzítése</h3>
+            <form action="/create-adress" method="POST">
+                <div class="form-group row">
+                    <label for="inputBuildingTypeId" class="col-sm-2 col-form-label">Ingatlan tipus</label>
+                    <div class="col-sm-10">
+                    <select name="buildingTypeId" id="inputBuildingTypeId" class=" form-control">
+                        <?php foreach($params['buildingTypes'] as $buildingType) : ?>    
+                        <option class=" text-dark"value="<?= $buildingType['buildingTypeId'] ?>">
+                                <?= $buildingType['buildingType']?>
+                            </option>
+                        <?php endforeach ?> 
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputCountryId" class="col-sm-2 col-form-label">Ország</label>
+                    <div class="col-sm-10">
+                    <select name="countryId" id="inputCountryId" class="form-control">
+                        <?php foreach($params['countryes'] as $country) : ?>    
+                        <option class=" text-dark"value="<?= $country['countryId'] ?>">
+                                <?= $country['country']?>
+                            </option>
+                        <?php endforeach ?> 
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputCityId" class="col-sm-2 col-form-label">Város</label>
+                    <div class="col-sm-10">
+                    <select name="cityId" id="inputCityId" class="form-control">
+                        <?php foreach($params['cityes'] as $city) : ?>    
+                        <option class=" text-dark"value="<?= $city['cityId'] ?>">
+                                <?= $city['cityName']?>
+                            </option>
+                        <?php endforeach ?> 
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputStreetId" class="col-sm-2 col-form-label">Utca</label>
+                    <div class="col-sm-10">
+                        <select name="streetId" id="inputStreetId" class="form-control">
+                        <?php foreach($params['streets'] as $street) : ?>    
+                        <option class=" text-dark"value="<?= $street['streetId'] ?>">
+                                <?= $street['streetName']?>
+                            </option>
+                        <?php endforeach ?> 
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputStreetTypeId" class="col-sm-2 col-form-label">tipus</label>
+                    <div class="col-sm-10">
+                        <select name="streetTypeId" id="inputStreetTypeId" class="form-control">
+                        <?php foreach($params['streetTypes'] as $streetType) : ?>    
+                        <option class=" text-dark"value="<?= $streetType['streetTypeId'] ?>">
+                                <?= $streetType['streetType']?>
+                            </option>
+                        <?php endforeach ?> 
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputHouseNumber" class="col-sm-2 col-form-label">Házszám</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputHouseNumber" name="houseNumber">
+                    </div>
+                    </div>
+                    <div class="form-group row">
+                    <label for="inputBuilding" class="col-sm-2 col-form-label">Épület</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputBuilding" name="building">
+                    </div>
+                    </div>
+                    <div class="form-group row">
+                    <label for="inputFloor" class="col-sm-2 col-form-label">Emelet</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputFloor" name="floor">
+                    </div>
+                    </div>
+                    <div class="form-group row">
+                    <label for="inputDoor" class="col-sm-2 col-form-label">Ajtó</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputDoor" name="door">
+                    </div>
+                    </div>
+                    <div class="form-group row">
+                    <label for="exampleFormControlAdressDesc" class="col-sm-2 col-form-label">Leírás</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" id="exampleFormControlAdressDesc" name="adressDesc" rows="3"></textarea>
+                    </div>
+                </div>
+             <!--    <div class="form-group row">
+                    <div class="col-sm-2">Aktív</div>
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="gridCheck1" name="isActive">
+                        </div>
+                    </div>
+                </div> -->
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary">Elküldés</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

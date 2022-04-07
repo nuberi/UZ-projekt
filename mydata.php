@@ -1,5 +1,5 @@
 <?php
-function adressesListPageHandler(){
+function myDataListPageHandler(){
     redirectToLoginPageNotLoggedIn();
     $pdo = getConnection();
     $stmt = $pdo->prepare("SELECT  buildingTypes.buildingType, countryes.country, cityes.postCode,cityes.cityName,streets.streetName,adresses.houseNumber,adresses.building,adresses.floor,adresses.door,adresses.adressDesc 
@@ -24,7 +24,7 @@ function adressesListPageHandler(){
         ]);
 }
 
-function createAdressHandler(){
+function createMyAdressHandler(){
     redirectToLoginPageNotLoggedIn();
   /*    echo "<pre>";
     var_dump($_POST);
@@ -54,7 +54,7 @@ function createAdressHandler(){
     ]);
     header("Location:/admin/adresseslist");
 }
-function adressCreatePageHandler(){
+function myDataCreatePageHandler(){
     redirectToLoginPageNotLoggedIn();
     $pdo=getConnection();
     $buildingTypes=getAllBuildingTypes($pdo);
@@ -65,7 +65,7 @@ function adressCreatePageHandler(){
 
 
     echo render('admin-wrapper.phtml',[
-        'content'=> render('create-adress.phtml',[
+        'content'=> render('create-my-adress.phtml',[
             'buildingTypes'=> $buildingTypes,
             'countryes'=>$countryes,
             'cityes'=>$cityes,
@@ -75,33 +75,28 @@ function adressCreatePageHandler(){
         ]);
 
 }
-function getAllCountryes($pdo){
+function getMyCountryes($pdo){
  
     $stmt =$pdo->prepare("SELECT * FROM countryes ORDER BY country ASC");
     $stmt ->execute();
     $countryes = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $countryes;
 }
-function getAllCityes($pdo){
+function getMyCityes($pdo){
     $stmt=$pdo->prepare("SELECT * FROM cityes ORDER BY cityName ASC");
     $stmt->execute();
     $cityes = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $cityes;
 }
-function getAllStreets($pdo){
+function getMyStreets($pdo){
     $stmt=$pdo->prepare("SELECT * FROM streets ORDER BY streetName ASC");
     $stmt->execute();
     $streets = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $streets;
 }
-function getAllStreetTypes($pdo){
+function getMyStreetTypes($pdo){
     $stmt=$pdo->prepare("SELECT * FROM streetTypes ORDER BY streetType ASC");
     $stmt->execute();
     $streetTypes = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $streetTypes;
 }
-
-
-
-
-

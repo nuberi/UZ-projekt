@@ -18,6 +18,7 @@ require './productTypes.php';
 require './buildingTypes.php';
 require './adresses.php';
 require './personal.php';
+require './mydata.php';
 
 
 
@@ -41,6 +42,9 @@ $routes = [
     ['GET', '/admin/adresseslist','adressesListPageHandler'],
     ['GET', '/admin/personallist','personalListPageHandler'],
     ['GET', '/admin/new-personal-page','personalCreatePageHandler'],
+    ['GET','/admin/new-adress-page','adressCreatePageHandler'],
+    ['GET','/admin/mydata','myDataCreatePageHandler'],
+
    
     ['POST', '/update-dish/ {dishId}','updateDishHandler'],
     ['POST', '/update-productType/ {productTypeId}','updateProductTypeHandler'],
@@ -55,7 +59,9 @@ $routes = [
     ['POST','/create-dish-type','createDishTypeHandler'],
     ['POST','/create-product-type','createProductTypeHandler'],
     ['POST','/create-building-type','createBuildingTypeHandler'],
-    ['POST','/create-personal','createPersonalHandler'],
+    ['POST','/create-adress','createAdressHandler'],
+    
+    
    
     ['POST', '/login', 'loginhandler'],
     ['POST', '/register','registrationHandler'],
