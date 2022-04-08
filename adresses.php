@@ -26,7 +26,7 @@ function adressesListPageHandler(){
 
 function createAdressHandler(){
     redirectToLoginPageNotLoggedIn();
-  /*    echo "<pre>";
+     /* echo "<pre>";
     var_dump($_POST);
     exit; */
 

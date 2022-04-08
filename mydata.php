@@ -12,7 +12,7 @@ function myDataListPageHandler(){
     on adresses.cityId = cityes.cityId
     LEFT JOIN  streets
     on adresses.streetId = streets.streetId
-    ;");
+    WHERE adresses.adressId = ;");
     $stmt->execute();
     $adresses = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
@@ -62,6 +62,7 @@ function myDataCreatePageHandler(){
     $cityes=getAllCityes($pdo);
     $streets=getAllstreets($pdo);
     $streetTypes=getAllStreetTypes($pdo);
+    $myPersonalDataId=getMyPersonalDataId($pdo);
 
 
     echo render('admin-wrapper.phtml',[
@@ -71,6 +72,7 @@ function myDataCreatePageHandler(){
             'cityes'=>$cityes,
             'streets'=>$streets,
             'streetTypes'=>$streetTypes,
+           'myPersonalDataId'=> $myPersonalDataId
         ])
         ]);
 
@@ -99,4 +101,10 @@ function getMyStreetTypes($pdo){
     $stmt->execute();
     $streetTypes = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $streetTypes;
+}
+function getMyPersonalDataId($pdo){
+    $stmt=$pdo->prepare("SELECT personalDataId FROM users WHERE id =$_SESSION[userId]");
+    $stmt->execute();
+    $myPersonalDataId = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $myPersonalDataId;
 }

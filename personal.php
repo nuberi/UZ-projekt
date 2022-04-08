@@ -26,10 +26,10 @@ function personalListPageHandler(){
 }
 function createPersonalHandler(){
     redirectToLoginPageNotLoggedIn();
-  /*    echo "<pre>";
+   /*  echo "<pre>";
     var_dump($_POST);
-    exit; */
-
+    exit; 
+ */
     $pdo=getConnection();
     $stmt=$pdo->prepare(
         "INSERT INTO personalsData(lastNameId,firstNameId,postId,titleId)

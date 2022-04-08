@@ -20,7 +20,13 @@
                     <div class="col-sm-10">
                     <select name="firstNameId" id="inputFirstNameId" class="form-control">
                         <?php foreach($params['firstNames'] as $firstName) : ?>    
-                        <option class=" text-dark" value="<?= $firstName['firstNameId'] ?>">
+                        <option class=" text-dark" value="<?= $firstName['firstNameId'] ?>
+                        <?php if($dish['isActive']==="0"): ?>
+              <span class="text-danger float-right pl-2 pr-2">
+              Inaktív
+              </span>
+              <?php endif ?>
+                        ">
                                 <?= $firstName['firstName']?>
                             </option>
                         <?php endforeach ?> 
