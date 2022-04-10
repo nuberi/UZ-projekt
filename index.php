@@ -31,6 +31,7 @@ $routes = [
     // [method, útvonal, handlerFunction],
     ['GET','/logout','logoutHandler'],
     ['GET', '/', 'homeHandler'],
+    ['GET', '/admin/emloyeForm', 'employeeFormHandler'],
     ['GET', '/admin/etel-szerkesztese/{keresoBaratNev}', 'dishEditHandler'],
     ['GET', '/admin/productType-szerkesztese/{productTypeId}', 'productTypeEditHandler'],
     ['GET', '/admin/buildingType-szerkesztese/{buildingTypeId}', 'buildingTypeEditHandler'],
@@ -67,6 +68,7 @@ $routes = [
     ['POST', '/login', 'loginhandler'],
     ['POST', '/register','registrationHandler'],
     ['POST','/logout','logoutHandler'],
+    ['POST','/new-employee','newEmployeeHandler'],
 
 ];
 
@@ -191,3 +193,17 @@ function getConnection()
         $_SERVER['DB_PASSWORD']
     );
 }
+function newEmployeeHandler(){
+    echo "<pre>";
+    var_dump($_POST);
+}
+
+// home handler helyett
+function employeeFormHandler(){
+    echo render('wrapper.phtml', [
+        'content'=>render('form.phtml', [
+            "isSuccess"=> true,
+        ])
+        ]);
+}
+

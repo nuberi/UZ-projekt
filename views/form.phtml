@@ -1,0 +1,96 @@
+<section class=" ftco-section pt-3">
+  <div class=" container">
+    <div class="col-md-12 mb-5 pb-3">
+      <div class="p-4 mb-4  rounded-3">
+        <div>
+          <h1 class="display-5 fw-bold text-danger text-center">Felhasználói adatok</h1>
+          <p class="text-center lead">Módosítsa amennyiben nem találja helyesnek!</p>
+        </div>
+      </div>
+      <div class="">
+        <?php if ($params['isSuccess']) : ?>
+          <div class="alert alert-success text-center ">
+            <p class="">Sikeres</p>
+          </div>
+        <?php endif; ?>
+      </div>
+    </div>
+    <div class="form-group row mt-5 ">
+        <label for="role" class="col-sm-2 col-form-label">Előtag</label>
+        <div class="col-sm-10">
+        <select class="form-control col" name="role">
+        <option class="text-danger" value="worker" <?= ($params['values']['role'] ?? '') === "worker" ? 'selected' : '' ?>>nincs</option>
+          <option class="text-danger" value="worker" <?= ($params['values']['role'] ?? '') === "worker" ? 'selected' : '' ?>>Dr.</option>
+          <option class="text-danger" value="manager" <?= ($params['values']['role'] ?? '') === "manager" ? 'selected' : '' ?>>Id.</option>
+          <option class="text-danger" value="leader" <?= ($params['values']['role'] ?? '') === "leader" ? 'selected' : '' ?>>Ifj.</option>
+        </select>
+        <div class="invalid-feedback">
+        </div>
+        </div>
+      </div>
+    <form action="/new-employee" method="POST" class="">
+      <div class="form-group row mt-5 ">
+        <label for="nev" class="col-sm-2 col-form-label">Vezetéknév:</label>
+        <div class="col-sm-10">
+        <input type="text" name="lastname" class="form-control " placeholder="vezetékneve?" />
+        <div class="invalid-feedback">
+          <p>üzi</p>
+        </div>
+        </div>
+      </div>
+      <div class="form-group row mt-5 ">
+        <label for="nev" class="col-sm-2 col-form-label">Keresztnév:</label>
+        <div class="col-sm-10">
+        <input type="text" name="name" class="form-control " placeholder="keresztneve?" />
+        <div class="invalid-feedback">
+          <p>üzi</p>
+        </div>
+        </div>
+      </div>
+     
+      <div class="form-group row mt-5  ">
+        <label for="birtdaytime" class="col-sm-2 col-form-label">Születési dátum:</label>
+        <div class="col-sm-10">
+        <input type="datetime-local" name="birtdaytime" class=" form-control" placeholder="Született" />
+        <div class="invalid-feedback">
+        </div>
+        </div>
+      </div>
+      <div class="form-group row mt-5 ">
+        <label for="salary" class="col-sm-2 col-form-label">Munkakör:</label>
+        <div class="col-sm-10">
+        <input type="text" class="form-control" name="salary" placeholder="Munkaköre, beosztása?" />
+        <div class="invalid-feedback">
+        </div>
+      </div>
+      </div>
+      <div class="form-group row mt-5 ">
+        <label for="email" class="col-sm-2 col-form-label">Email (opcionális):</label>
+        <div class="col-sm-10">
+       
+        <input type="text" class="form-control" placeholder="Email" name="email-címe?" />
+        <div class="invalid-feedback">
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-check row m-5">
+
+        <label for="isVerifed" class=" col-sm-4 col-form-label">Elfogadom a felhasználói feltételeket</label>
+     
+        <input class="" type="checkbox" name="isVerified" />
+
+        <div class="invalid-feedback">
+
+        </div>
+
+      </div>
+      <div class="m-2">
+        <button class="btn btn-primary" type="submit">Küldés</button>
+      </div>
+    </form>
+  </div>
+
+  </div>
+  
