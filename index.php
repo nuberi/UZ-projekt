@@ -18,7 +18,7 @@ require './productTypes.php';
 require './buildingTypes.php';
 require './adresses.php';
 require './personal.php';
-require './mydata.php';
+require './my-personal-data.php';
 
 
 
@@ -31,7 +31,7 @@ $routes = [
     // [method, útvonal, handlerFunction],
     ['GET','/logout','logoutHandler'],
     ['GET', '/', 'homeHandler'],
-    ['GET', '/admin/emloyeForm', 'employeeFormHandler'],
+    ['GET', '/admin/myPesonaldata', 'CreateMyPresonalPageHandler'],
     ['GET', '/admin/etel-szerkesztese/{keresoBaratNev}', 'dishEditHandler'],
     ['GET', '/admin/productType-szerkesztese/{productTypeId}', 'productTypeEditHandler'],
     ['GET', '/admin/buildingType-szerkesztese/{buildingTypeId}', 'buildingTypeEditHandler'],
@@ -44,7 +44,7 @@ $routes = [
     ['GET', '/admin/personallist','personalListPageHandler'],
     ['GET', '/admin/new-personal-page','personalCreatePageHandler'],
     ['GET','/admin/new-adress-page','adressCreatePageHandler'],
-    ['GET','/admin/myAaressdata','myDataCreatePageHandler'],
+    ['GET','/admin/myAdressdata','myDataCreatePageHandler'],
 
    
     ['POST', '/update-dish/ {dishId}','updateDishHandler'],
@@ -81,6 +81,21 @@ $handlerFunction($matchedRoute['vars']);
 // Handler függvények deklarálása
 function registrationHandler(){
     $admin="false";
+// me
+    $pdo = getConnection();
+    $stmt = $pdo->prepare('SELECT * FROM users WHERE email = ?');
+    $stmt->execute([$_POST['email']]);
+    $user = $stmt->fetch();
+    if ($user) {
+        header('Location: /admin?info=invalidCredentials');
+        return;
+    }
+
+    /* if (password_verify($_POST['password'], $user['password'])) {
+        header('Location: /admin?info=invalidCredentials');
+        return;
+    } */
+
     $pdo = getConnection();
     $statment = $pdo->prepare(
         "INSERT INTO `users` (`email`, `password`, `createdAt`, admin) 
@@ -92,8 +107,32 @@ function registrationHandler(){
         time(),
         $admin
     ]);
-
-    header('Location: /');
+    $pdo = getConnection();
+    $stmt = $pdo->prepare('SELECT * FROM users WHERE email = ?');
+    $stmt->execute([$_POST['email']]);
+    $user = $stmt->fetch();
+    $userId=$user['id'];
+    if ($user) {
+        $pdo = getConnection();
+    $statment = $pdo->prepare(
+        "INSERT INTO `personalsData` (`userId`,`entryRecorded`) 
+        VALUES (?,?);" 
+    );
+    $statment->execute([
+       $userId,
+        time(),
+        
+    ]);
+    LoginHandler();
+    // header('Location: /');
+    }
+    else{
+        header('Location: /admin?info=invalidCredentials');
+        return;
+    }
+   
+  
+   
 }
 
 
@@ -194,16 +233,36 @@ function getConnection()
     );
 }
 function newEmployeeHandler(){
-    echo "<pre>";
-    var_dump($_POST);
+    function updatepersonalDataHandler($urlParams)
+    {
+        redirectToLoginPageNotLoggedIn();
+      
+        $pdo = getConnection();
+        $stmt = $pdo->prepare(
+            "UPDATE pesonalsData SET
+            titleId=?,
+            lastName=?,
+            firstName=?,
+            dateOfBirth=?,
+            postId=?,
+            isVerifed=?,
+            otherInfo=?
+            WHERE userId= ?"
+        );
+        $stmt->execute([
+        $_POST['titleId'],
+        $_POST['lastName'],
+        $_POST['firstName'],
+        $_POST['dateOfBirth'],
+        $_POST['postId'],
+        (int)isset($_POST['isVerifed']),
+        $_POST('otherInfo'),
+        $_SESSION['userId']
+        ]);
+    }
 }
-
 // home handler helyett
 function employeeFormHandler(){
-    echo render('wrapper.phtml', [
-        'content'=>render('form.phtml', [
-            "isSuccess"=> true,
-        ])
-        ]);
+    CreateMyPresonalPageHandler();
 }
 
