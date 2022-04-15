@@ -1,7 +1,13 @@
 <section class="ftco-section">
     <div class="container">
+    <p>
+            <?php echo 
+    $_SESSION['userId'];
+    ?>
+            </p>
         <div class="row">
-
+      
+    
             <?php foreach ($params['dishTypesWithDishes'] as $dishType): ?>
             <div class="col-md-6 mb-5 pb-3">
                 <h3 class="mb-5 heading-pricing ftco-animate fadeInUp ftco-animated text-warning">

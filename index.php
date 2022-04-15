@@ -68,7 +68,7 @@ $routes = [
     ['POST', '/login', 'loginhandler'],
     ['POST', '/register','registrationHandler'],
     ['POST','/logout','logoutHandler'],
-    ['POST','/new-employee','newEmployeeHandler'],
+    ['POST','/new-employee','updatepersonalDataHandler'],
 
 ];
 
@@ -232,35 +232,44 @@ function getConnection()
         $_SERVER['DB_PASSWORD']
     );
 }
-function newEmployeeHandler(){
-    function updatepersonalDataHandler($urlParams)
-    {
+function updatepersonalDataHandler(){
+    
         redirectToLoginPageNotLoggedIn();
+   
+   
       
         $pdo = getConnection();
         $stmt = $pdo->prepare(
-            "UPDATE pesonalsData SET
+            "UPDATE personalsData SET
             titleId=?,
             lastName=?,
-            firstName=?,
+            firstNameId=?,
             dateOfBirth=?,
             postId=?,
             isVerifed=?,
             otherInfo=?
-            WHERE userId= ?"
+           
+            WHERE userId=?"
         );
         $stmt->execute([
-        $_POST['titleId'],
+       $_POST['titleId'],
         $_POST['lastName'],
-        $_POST['firstName'],
+       $_POST['firstNameId'],
         $_POST['dateOfBirth'],
-        $_POST['postId'],
-        (int)isset($_POST['isVerifed']),
-        $_POST('otherInfo'),
-        $_SESSION['userId']
+       $_POST['postId'],
+        $_POST['isVerifed'],
+        $_POST['otherInfo'],
+      $_SESSION['userId']
+      
         ]);
+     /*    echo "<pre>";
+        var_dump($_POST,$_SESSION['userId']);
+
+        exit; */
+        header('Location: /admin/myPesonaldata');
     }
-}
+
+
 // home handler helyett
 function employeeFormHandler(){
     CreateMyPresonalPageHandler();

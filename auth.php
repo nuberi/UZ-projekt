@@ -69,6 +69,6 @@ function redirectToLoginPageNotLoggedIn()
         return;
     }
     notFoundHandler();
-    // header('Location: /login');
-    exit;
+     header('Location: /login');
+    
 }
