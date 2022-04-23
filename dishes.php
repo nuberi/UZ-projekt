@@ -92,3 +92,17 @@ function dishEditHandler($vars)
         ]);
 
 }
+function allDishHandler()
+{
+    adminDasboardHandler();
+    $pdo = getConnection();
+    $stmt = $pdo->prepare("SELECT * FROM dishes ORDER BY id desc ");
+    $stmt->execute();
+    $dishes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    echo render('admin-wrapper.phtml', [
+        'content' => render('dish-list.phtml', [
+            'dishes' => $dishes
+        ])
+    ]);
+}
