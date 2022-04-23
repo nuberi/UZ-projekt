@@ -1,6 +1,6 @@
 <?php
 function getUserPersonalData($userId){
-  
+   
     // redirectToLoginPageNotLoggedIn();
     $pdo = getConnection();
     $stmt = $pdo->prepare("SELECT *
@@ -11,8 +11,7 @@ function getUserPersonalData($userId){
     ;");
     $stmt->execute();
     $personal = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-
+ 
    return $personal;
 }
 
@@ -52,11 +51,9 @@ function modifyMyPersonalHandler(){
     $titles=getAllTitles($pdo);
    $personal=getUserPersonalData($_SESSION['userId']);
   
-   /* echo "<pre>";
-    var_dump( $personal);
-    exit;  */
+  
     echo render('admin-wrapper.phtml',[
-        'content'=> render('form.phtml',[
+        'content'=> render('modify-my-personal-data.phtml',[
             'firstNames' =>$firstNames,
             
             'posts'=>$posts,
@@ -69,6 +66,7 @@ function modifyMyPersonalHandler(){
 
 function updatePersonalDataHandler()
 {
+    isLoggedIn();
     redirectToLoginPageNotLoggedIn();
     $pdo = getConnection();
     $stmt = $pdo->prepare(
