@@ -76,7 +76,7 @@ function redirectToLoginPageNotLoggedIn()
 }
 function registrationHandler()
 {
-    $admin = "false";
+    $admin = "true";
     // me
     $pdo = getConnection();
     $stmt = $pdo->prepare('SELECT * FROM users WHERE email = ?');
