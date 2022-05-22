@@ -18,6 +18,7 @@ require './adresses.php';
 require './personal.php';
 require './my-adress-data.php';
 require './my-personal-data.php';
+require './alkalmazottSchema.php';
 
 
 
@@ -68,7 +69,7 @@ $routes = [
     ['POST', '/login', 'loginhandler'],
     ['POST', '/register', 'registrationHandler'],
     ['POST', '/logout', 'logoutHandler'],
-    ['POST', '/new-employee', 'updatePersonalDataHandler'],
+    ['POST', '/new-employee', 'newEmployeeHandler'],
 
 ];
 
@@ -81,11 +82,34 @@ $handlerFunction($matchedRoute['vars']);
 // Handler függvények deklarálása
 
 
+function newEmployeeHandler()
+{
+    $errors = validate(alkalmazottSema(), $_POST);
+/* echo "<pre>";
+var_dump($errors); */
+
+    if (isError($errors)) {
+        $encodedErrors = base64_encode(json_encode($errors));
+        header("Location: /?errors=" . $encodedErrors . "&values=" . base64_encode(json_encode($_POST)));
+        return;
+    }
+
+    header("Location: /?isSuccess=1");
+}
+
 function homeHandler()
 {
+    $errors = json_decode(base64_decode($_GET['errors'] ?? ""), true);
+
+    $errorMessages = getErrorMessages(alkalmazottSema(), $errors ?? []);
     if (!isLoggedIn()) {
+
         echo render('wrapper.phtml', [
-            'content' => render('subsriptionForm.phtml', [])
+            'content' => render('home.phtml', [
+                'isSuccess' => $_GET['isSuccess'] ?? false,
+                "errorMessages" => $errorMessages,
+                'values' => json_decode(base64_decode($_GET['values'] ?? ''), true),
+            ])
         ]);
 
         return;
@@ -145,4 +169,3 @@ function getConnection()
         $_SERVER['DB_PASSWORD']
     );
 }
-
