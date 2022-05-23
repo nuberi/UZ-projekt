@@ -18,7 +18,7 @@ require './adresses.php';
 require './personal.php';
 require './my-adress-data.php';
 require './my-personal-data.php';
-require './alkalmazottSchema.php';
+require './Schema.php';
 
 
 
@@ -31,7 +31,11 @@ $path = $parsed['path'];
 $routes = [
     // [method, útvonal, handlerFunction],
     ['GET', '/logout', 'logoutHandler'],
+    ['GET', '/login', 'loginPageHandler'],
+    ['GET', '/employee', 'employeeHandler'],
     ['GET', '/', 'homeHandler'],
+    ['GET', '/registration', 'registrationPageHandler'],
+    ['GET', '/admin','adminPageHandler'],
 
     ['GET', '/admin/etel-szerkesztese/{keresoBaratNev}', 'dishEditHandler'],
     ['GET', '/admin/productType-szerkesztese/{productTypeId}', 'productTypeEditHandler'],
@@ -85,16 +89,34 @@ $handlerFunction($matchedRoute['vars']);
 function newEmployeeHandler()
 {
     $errors = validate(alkalmazottSema(), $_POST);
-/* echo "<pre>";
+    /* echo "<pre>";
 var_dump($errors); */
 
     if (isError($errors)) {
         $encodedErrors = base64_encode(json_encode($errors));
-        header("Location: /?errors=" . $encodedErrors . "&values=" . base64_encode(json_encode($_POST)));
+        header("Location: /employee?errors=" . $encodedErrors . "&values=" . base64_encode(json_encode($_POST)));
         return;
     }
 
-    header("Location: /?isSuccess=1");
+    header("Location: /employee?isSuccess=1");
+}
+function employeeHandler()
+{
+    $errors = json_decode(base64_decode($_GET['errors'] ?? ""), true);
+
+    $errorMessages = getErrorMessages(alkalmazottSema(), $errors ?? []);
+    if (isLoggedIn()) {
+
+        echo render('wrapper.phtml', [
+            'content' => render('newEmployee.phtml', [
+                'isSuccess' => $_GET['isSuccess'] ?? false,
+                "errorMessages" => $errorMessages,
+                'values' => json_decode(base64_decode($_GET['values'] ?? ''), true),
+            ])
+        ]);
+
+        return;
+    }
 }
 
 function homeHandler()

@@ -9,6 +9,17 @@ function logoutHandler()
 }
 function loginHandler()
 {
+    $errors = validate(loginSema(), $_POST);
+    /* echo "<pre>";
+var_dump($errors); */
+
+    if (isError($errors)) {
+        $encodedErrors = base64_encode(json_encode($errors));
+        header("Location: /login?errors=" . $encodedErrors . "&values=" . base64_encode(json_encode($_POST)));
+        return;
+    }
+
+   // header("Location: /employee?isSuccess=1");
     $pdo = getConnection();
     $stmt = $pdo->prepare('SELECT * FROM users WHERE email = ?');
     $stmt->execute([$_POST['email']]);
@@ -127,7 +138,40 @@ function registrationHandler()
     }
 }
 
+function registrationPageHandlereHandler()
+{
+    $errors = json_decode(base64_decode($_GET['errors'] ?? ""), true);
 
+    $errorMessages = getErrorMessages(registrationSema(), $errors ?? []);
+    if (!isLoggedIn()) {
+        echo render('wrapper.phtml', [
+            'content' => render('subscriptionForm.phtml', [
+                'isSuccess' => $_GET['isSuccess'] ?? false,
+                "errorMessages" => $errorMessages,
+                'values' => json_decode(base64_decode($_GET['values'] ?? ''), true),
+            ])
+        ]);
+
+        return;
+    }
+}
+function loginPageHandler()
+{
+    $errors = json_decode(base64_decode($_GET['errors'] ?? ""), true);
+
+    $errorMessages = getErrorMessages(loginSema(), $errors ?? []);
+    if (!isLoggedIn()) {
+        echo render('wrapper.phtml', [
+            'content' => render('login.phtml', [
+                'isSuccess' => $_GET['isSuccess'] ?? false,
+                "errorMessages" => $errorMessages,
+                'values' => json_decode(base64_decode($_GET['values'] ?? ''), true),
+            ])
+        ]);
+
+        return;
+    }
+}
 function adminDasboardHandler()
 {
     if (!isLoggedIn()) {

@@ -10,6 +10,23 @@ $alkalmazottSema = [
 ];
 return toSchema($alkalmazottSema);
 }
+function registrationSema(){
+    $regisrtrationSema = [
+        "email" => [emailFormatum(),kotelezo()],
+        "password" => [kotelezo(),hossz(3)],
+        // "isVerified" => [kotelezo()],
+    ];
+    return toSchema($regisrtrationSema);
+    }
+    function loginSema(){
+        $loginSema = [
+         
+            "email" => [emailFormatum(),kotelezo()],
+            "password" => [kotelezo(),hossz(3)],
+         
+        ];
+        return toSchema($loginSema);
+        }
 function toSchema($items) {
     $ret = [];
     foreach ($items as $key => $value) {
@@ -49,6 +66,14 @@ function valasztasiLehetosegek(...$options){
 
     ];
 }
+function hossz($lenght){
+    return [
+        "validatorName" => "lenght",
+        "validatorFn" => fn ($input)=> strlen($input)==$lenght,
+        "params" => $lenght
+
+    ];
+}
 function kozott($lower, $upper)
 {
 
@@ -83,6 +108,7 @@ function getErrorMessages($schema, $errors)
         "between" =>  fn ($value, $params) => "Mező értékének " .  $params[0] . " és " . $params[1] . " között kell lennie. " . (!$value ? "Semmi nem" : $value) . " lett megadva.",
         "enum" => fn ($value, $param) =>  "Mező a következő értékek valamelyikének kell lennie: " .  $param . ". " . ((int)$value ?? "Semmi nem") . " lett megadva.",
         "email" => fn ($value, $param) => "Mező értéknek érvényes email címnek kell lennie. '" . ($value ?? "nothing") . "' lett megadva.",
+        "lenght" => fn ($value, $param) => "Mező pontosan  $param karakterből álljon . " . strlen($value) . " karakter lett megadva.",
     ];
 
     $ret = [];
