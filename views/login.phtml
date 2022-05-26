@@ -10,6 +10,20 @@ $isValidClass = function ($key) use ($params) {
 };
 ?>
 <section class="ftco-section pt-3">
+
+    <div class="container">
+
+        <div class="col-md-12">
+            <div class="jumbotron text-center ">
+                <h2 class="text-success">A bejelentkezéshez előzetes regisztráció szükséges!</h2>
+                    <h2><? if($params['info']):?>
+                       
+                         <p class="text-danger"><? echo $params['info']?></p>
+                         
+                         <?php endif;?></h2>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <div class="col-md-12 mb-5 pb-3">
             <h3>Bejelentkezés</h3>
@@ -23,7 +37,7 @@ $isValidClass = function ($key) use ($params) {
 
                     <label for="email" class="col-sm-2 col-form-label">Email</label>
 
-                    <input type="email" class="form-control <?= $isValidClass('email') ?>" id="email" name="email">
+                    <input type="email" class="form-control <?= $isValidClass('email')?>" id="email" name="email" value="<?=$params['values']['email'] ?? ''?>">
 
                     <div class="invalid-feedback">
 
@@ -36,7 +50,7 @@ $isValidClass = function ($key) use ($params) {
                 <div class="form-group-row">
                     <label for="password" class="col-sm-2 col-form-label">Jelszó</label>
 
-                    <input type="password" class="form-control <?= $isValidClass('email') ?>" id="password" name="password">
+                    <input type="password" class="form-control <?= $isValidClass('password') ?>" id="password" name="password" value="<?=$params['values']['password'] ?? ''?>">
 
                     <div class="invalid-feedback">
                         <?php foreach ($params['errorMessages']['password'] as $error) : ?>
@@ -53,7 +67,7 @@ $isValidClass = function ($key) use ($params) {
         </div>
         </form>
         <div>
-            <a class="float-right text-danger"href="">Regisztrációhoz kattintson ide!</a>
+            <a class="float-right text-danger" href="/registration">Regisztrációhoz kattintson ide!</a>
         </div>
     </div>
     </div>

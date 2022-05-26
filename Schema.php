@@ -1,77 +1,84 @@
 <?php
-function alkalmazottSema(){
-$alkalmazottSema = [
-    "name" => [kotelezo(),maxHossz(30)],
-    "role" => [kotelezo(), valasztasiLehetosegek("manager","leader","worker")],
-    "age" => [kotelezo(), kozott(18, 120)],
-    "salary" => [kotelezo(),nagyobbMint(0)],
-    "email" => [emailFormatum()],
-    "isVerified" => [kotelezo()],
-];
-return toSchema($alkalmazottSema);
+function alkalmazottSema()
+{
+    $alkalmazottSema = [
+        "name" => [kotelezo(), maxHossz(30)],
+        "role" => [kotelezo(), valasztasiLehetosegek("manager", "leader", "worker")],
+        "age" => [kotelezo(), kozott(18, 120)],
+        "salary" => [kotelezo(), nagyobbMint(0)],
+        "email" => [emailFormatum()],
+        "isVerified" => [kotelezo()],
+    ];
+    return toSchema($alkalmazottSema);
 }
-function registrationSema(){
+function registrationSema()
+{
     $regisrtrationSema = [
-        "email" => [emailFormatum(),kotelezo()],
-        "password" => [kotelezo(),hossz(3)],
+        "email" => [emailFormatum(), kotelezo()],
+        "password" => [kotelezo(), hossz(3)],
         // "isVerified" => [kotelezo()],
     ];
     return toSchema($regisrtrationSema);
-    }
-    function loginSema(){
-        $loginSema = [
-         
-            "email" => [emailFormatum(),kotelezo()],
-            "password" => [kotelezo(),hossz(3)],
-         
-        ];
-        return toSchema($loginSema);
-        }
-function toSchema($items) {
+}
+function loginSema()
+{
+    $loginSema = [
+
+        "email" => [emailFormatum(), kotelezo()],
+        "password" => [kotelezo(), hossz(3)],
+
+    ];
+    return toSchema($loginSema);
+}
+
+function toSchema($items)
+{
     $ret = [];
     foreach ($items as $key => $value) {
         $ret[$key] = array_reduce($value, fn ($acc, $item) => array_merge($acc, [$item['validatorName'] => $item]), []);
     }
     return $ret;
 }
-function valasztasiLehetosegek(...$options){
+function valasztasiLehetosegek(...$options)
+{
     return [
         "validatorName" => "enum",
-        "validatorFn" => fn ($input)=> in_array($input,$options),
-        "params" => implode(", ",$options)
-
-    ];
- }
- function emailFormatum(){
-    return [
-        "validatorName" => "email",
-        "validatorFn" => fn ($input)=> filter_var($input,FILTER_VALIDATE_EMAIL),
-        "params" => null
-
-    ];
- }
- function nagyobbMint($lower){
-    return [
-        "validatorName" => "largerThan",
-        "validatorFn" => fn ($input)=> strlen($input)>$lower,
-        "params" => $lower
-
-    ];
- }
- function maxHossz($lenght){
-    return [
-        "validatorName" => "maxLenght",
-        "validatorFn" => fn ($input)=> strlen($input)<$lenght,
-        "params" => $lenght
-
+        "validatorFn" => fn ($input) => in_array($input, $options),
+        "params" => implode(", ", $options)
     ];
 }
-function hossz($lenght){
+function emailFormatum()
+{
+    return [
+        "validatorName" => "email",
+        "validatorFn" => fn ($input) => filter_var($input, FILTER_VALIDATE_EMAIL),
+        "params" => null
+    ];
+}
+function nagyobbMint($lower)
+{
+    return [
+        "validatorName" => "largerThan",
+        "validatorFn" => fn ($input) => strlen($input) > $lower,
+        "params" => $lower
+    ];
+}
+function maxHossz($lenght)
+{
+    return [
+        "validatorName" => "maxLenght",
+        "validatorFn" => fn ($input) => strlen($input) < $lenght,
+        "params" => $lenght
+    ];
+}
+function hossz($lenght)
+{
     return [
         "validatorName" => "lenght",
-        "validatorFn" => fn ($input)=> strlen($input)==$lenght,
+        "validatorFn" => function ($input)  use ($lenght) {
+            return  strlen($input) == $lenght ;
+        },
         "params" => $lenght
-
     ];
 }
 function kozott($lower, $upper)
@@ -80,7 +87,6 @@ function kozott($lower, $upper)
     return [
         "validatorName" => "between",
         "validatorFn" => function ($input) use ($lower, $upper) {
-
             return $input >= $lower && $input <= $upper;
         },
         "params" => [$lower, $upper]
@@ -92,7 +98,6 @@ function kotelezo()
     return [
         "validatorName" => "required",
         "validatorFn" => function ($input) {
-
             return (bool)$input;
         },
         "params" => null
@@ -108,7 +113,7 @@ function getErrorMessages($schema, $errors)
         "between" =>  fn ($value, $params) => "Mező értékének " .  $params[0] . " és " . $params[1] . " között kell lennie. " . (!$value ? "Semmi nem" : $value) . " lett megadva.",
         "enum" => fn ($value, $param) =>  "Mező a következő értékek valamelyikének kell lennie: " .  $param . ". " . ((int)$value ?? "Semmi nem") . " lett megadva.",
         "email" => fn ($value, $param) => "Mező értéknek érvényes email címnek kell lennie. '" . ($value ?? "nothing") . "' lett megadva.",
-        "lenght" => fn ($value, $param) => "Mező pontosan  $param karakterből álljon . " . strlen($value) . " karakter lett megadva.",
+        "lenght" => fn ($value, $param) => "Mező pontosan $param karakterből álljon . " . strlen($value) . " karakter lett megadva.",
     ];
 
     $ret = [];
@@ -122,7 +127,8 @@ function getErrorMessages($schema, $errors)
     return $ret;
 }
 
-function isError ($errors) {
+function isError($errors)
+{
     return count(array_reduce(array_values($errors), 'array_merge', []));
 }
 function validate($schema, $body)
@@ -138,13 +144,11 @@ function validate($schema, $body)
 
     foreach ($fieldNames as $fieldName) {
         $validators = $schema[$fieldName];
-
         $isRequiredField = count(array_filter($validators, fn ($validator) => $validator['validatorName'] === 'required'));
 
         if (!$isRequiredField && !($body[$fieldName] ?? null)) {
             continue;
         }
-
 
         foreach ($validators as $validator) {
             $validatorFn = $validator['validatorFn'];

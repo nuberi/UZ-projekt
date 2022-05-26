@@ -9,6 +9,8 @@ if ($_SERVER['DEPLOYMENT_MODE'] === "DEV") {
 require './router.php';
 require './slugifier.php';
 require './auth.php';
+require './login-auth.php';
+require './reg-auth.php';
 require './dishes.php';
 require './dishTypes.php';
 require './product.php';
@@ -18,7 +20,8 @@ require './adresses.php';
 require './personal.php';
 require './my-adress-data.php';
 require './my-personal-data.php';
-require './Schema.php';
+require './schema.php';
+require './employee.php';
 
 
 
@@ -35,7 +38,7 @@ $routes = [
     ['GET', '/employee', 'employeeHandler'],
     ['GET', '/', 'homeHandler'],
     ['GET', '/registration', 'registrationPageHandler'],
-    ['GET', '/admin','adminPageHandler'],
+    ['GET', '/admin', 'adminPageHandler'],
 
     ['GET', '/admin/etel-szerkesztese/{keresoBaratNev}', 'dishEditHandler'],
     ['GET', '/admin/productType-szerkesztese/{productTypeId}', 'productTypeEditHandler'],
@@ -86,59 +89,26 @@ $handlerFunction($matchedRoute['vars']);
 // Handler függvények deklarálása
 
 
-function newEmployeeHandler()
-{
-    $errors = validate(alkalmazottSema(), $_POST);
-    /* echo "<pre>";
-var_dump($errors); */
 
-    if (isError($errors)) {
-        $encodedErrors = base64_encode(json_encode($errors));
-        header("Location: /employee?errors=" . $encodedErrors . "&values=" . base64_encode(json_encode($_POST)));
-        return;
-    }
-
-    header("Location: /employee?isSuccess=1");
-}
-function employeeHandler()
-{
-    $errors = json_decode(base64_decode($_GET['errors'] ?? ""), true);
-
-    $errorMessages = getErrorMessages(alkalmazottSema(), $errors ?? []);
-    if (isLoggedIn()) {
-
-        echo render('wrapper.phtml', [
-            'content' => render('newEmployee.phtml', [
-                'isSuccess' => $_GET['isSuccess'] ?? false,
-                "errorMessages" => $errorMessages,
-                'values' => json_decode(base64_decode($_GET['values'] ?? ''), true),
-            ])
-        ]);
-
-        return;
-    }
-}
 
 function homeHandler()
 {
-    $errors = json_decode(base64_decode($_GET['errors'] ?? ""), true);
-
-    $errorMessages = getErrorMessages(alkalmazottSema(), $errors ?? []);
     if (!isLoggedIn()) {
-
         echo render('wrapper.phtml', [
-            'content' => render('home.phtml', [
-                'isSuccess' => $_GET['isSuccess'] ?? false,
-                "errorMessages" => $errorMessages,
-                'values' => json_decode(base64_decode($_GET['values'] ?? ''), true),
-            ])
+            'content' => render('home.phtml', [])
         ]);
-
         return;
     }
+    if (isAdmin()) {
+        allDishHandler();
+        return;
+    }
+    publicMenu();
+}
 
+function publicMenu()
+{
     $pdo = getConnection();
-
     $dishTypes = getAllDishTypes($pdo);
     foreach ($dishTypes as $index => $dishType) {
         $stmt = $pdo->prepare("SELECT * FROM dishes WHERE isActive =1 AND dishTypeId =?");
@@ -146,27 +116,12 @@ function homeHandler()
         $dishes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $dishTypes[$index]['dishes'] = $dishes;
     }
-
-    // echo"<pre>";
-    // var_dump($dishTypes);
-    if (isAdmin()) {
-
-        echo render("admin-wrapper.phtml", [
-            'content' => render('public-menu.phtml', [
-                'dishTypesWithDishes' => $dishTypes
-            ])
-        ]);
-    } else {
-        echo render("wrapper.phtml", [
-            'content' => render('public-menu.phtml', [
-                'dishTypesWithDishes' => $dishTypes
-            ])
-        ]);
-    }
+    echo render("wrapper.phtml", [
+        'content' => render('public-menu.phtml', [
+            'dishTypesWithDishes' => $dishTypes
+        ])
+    ]);
 }
-
-
-
 
 function notFoundHandler()
 {
